@@ -57,6 +57,7 @@ class RoadGenerator(Generator):
         return world, height_map
 
     def kruskal(self, vertices, edges):
+        # https://gist.github.com/Peng-YM/84bd4b3f6ddcb75a147182e6bdf281a6
         MST = []
         uf = UF(len(vertices))
         for e in edges:
@@ -147,6 +148,7 @@ class RoadGenerator(Generator):
 
 
 class UF:
+    # https://gist.github.com/Peng-YM/84bd4b3f6ddcb75a147182e6bdf281a6
     def __init__(self, N):
         self._id = [i for i in range(N)]
 
