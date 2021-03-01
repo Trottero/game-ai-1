@@ -4,6 +4,8 @@ class Blocks():
     WATER = 3
     OCEAN = 4
     SAND = 5
+    VILLAGE = 6
+    PATH = 7
     pallete = {
         # Grass
         1: [148, 186, 101],

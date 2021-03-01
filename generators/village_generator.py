@@ -30,8 +30,9 @@ class VillageGenerator(Generator):
                 selection = world[x1:min(x1 + self.village_size + 1, size),
                                   y1:min(y1 + self.village_size + 1, size)]
                 selection = selection - Blocks.GRASS
+                # check if all blocks in selection are grass
                 if np.count_nonzero(selection) == 0:
                     # Success! spawn village at this x, y
                     world[x1:min(x1 + self.village_size + 1, size),
-                          y1:min(y1 + self.village_size + 1, size)] = 6
+                          y1:min(y1 + self.village_size + 1, size)] = Blocks.VILLAGE
                     break
