@@ -41,8 +41,6 @@ class RoadGenerator(Generator):
 
         edges = []
         perms = list(itertools.combinations(vertices, 2))
-        print(len(perms))
-        i = 0
         with Pool(cpu_count()) as p:
             results = [p.apply_async(self.find_path, (world, s, t))
                        for s, t in perms]
