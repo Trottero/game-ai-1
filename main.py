@@ -1,8 +1,10 @@
+from generators.village_generator import VillageGenerator
+from generators.beach_generator import BeachGenerator
 from generators.land_generator import LandGenerator
 from world import World
 
 
 if __name__ == '__main__':
-    w = World()
-    w.generate([LandGenerator()])
+    w = World(128)
+    w.generate([LandGenerator(), BeachGenerator(), VillageGenerator()])
     w.export_to_fig()
