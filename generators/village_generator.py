@@ -4,7 +4,16 @@ from blocks import Blocks
 
 
 class VillageGenerator(Generator):
-    def __init__(self, probability=0.5, village_size=2, attempts=10):
+    """ Adds villages onto the map.
+
+    ``probability`` -- probability to attempt generation on a chunk basis (default 0.5)
+
+    ``village_size`` -- n x n size of each individual village (default 2)
+
+    ``attempts`` -- maximum number of attempts (default 10)
+    """
+
+    def __init__(self, probability=0.1, village_size=2, attempts=10):
         self.probability = probability
         self.village_size = village_size
         self.attempts = attempts
