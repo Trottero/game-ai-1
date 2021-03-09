@@ -7,25 +7,30 @@ import scipy.ndimage
 
 
 class LandGenerator(Generator):
-    def __init__(self, apply_gaussian=True, rng=np.random.default_rng()):
+    def __init__(self, apply_gaussian=True, apply_perlin=True, rng=np.random.default_rng()):
         self.apply_gaussian = apply_gaussian
+        self.apply_perlin = apply_perlin
         self.rng = rng
         pass
 
     def apply(self, world, height_map):
-        for x in range(len(world)):
-            for y in range(len(world)):
-                world[x, y] = self.perlin(x, y)
-        # world = np.array(world) + world.min()
-        # world = world / np.max(world)
+        if self.apply_perlin:
+            for x in range(len(world)):
+                for y in range(len(world)):
+                    world[x, y] = self.perlin(x, y)
+
         if self.apply_gaussian:
             world = sp.ndimage.filters.gaussian_filter(
                 world, [5.0, 5.0], mode='constant')
 
+        # Normalize
         difference = float(world.max() - world.min())
         height_map = (world - world.min()) / difference
-        v = np.vectorize(self.block_picker)
-        return v(height_map), height_map
+
+        if self.apply_perlin:
+            world = np.vectorize(self.block_picker)(height_map)
+
+        return world, height_map
 
     # Use Perlin noise generation
     def interpolate(self, a0, a1, w):

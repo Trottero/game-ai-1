@@ -9,9 +9,9 @@ import os
 class World():
 
     def __init__(self, size=50, seed=1337):
-        self.world = np.zeros((size, size))
-        self.height_map = np.zeros((size, size))
         self.rng = np.random.default_rng(int(seed, base=36))
+        self.world = self.rng.random((size, size))
+        self.height_map = self.rng.random((size, size))
         self.seed = seed
         self.size = size
         pass
@@ -25,14 +25,14 @@ class World():
 
     def export_to_fig(self, filename='world'):
         # convert to (size, size, rgb)
+        os.makedirs('worlds', exist_ok=True)
+        plt.imsave(
+            f'worlds/{self.seed}_{filename}_height.png', self.height_map)
+
         flattened = self.world.flatten()
         colored = np.array([World._color_convert(f) for f in flattened])
         colored = colored.reshape(self.size, self.size, 3)
-
-        os.makedirs('worlds', exist_ok=True)
         plt.imsave(f'worlds/{self.seed}_{filename}.png', colored)
-        plt.imsave(
-            f'worlds/{self.seed}_{filename}_height.png', self.height_map)
         plt.show()
         pass
 
