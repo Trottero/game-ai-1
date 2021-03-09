@@ -23,16 +23,16 @@ class World():
                 self.world, self.height_map)
             pass
 
-    def export_to_fig(self, filename='world'):
+    def export_to_fig(self, filename='world', type='png'):
         # convert to (size, size, rgb)
         os.makedirs('worlds', exist_ok=True)
         plt.imsave(
-            f'worlds/{self.seed}_{filename}_height.png', self.height_map)
+            f'worlds/{self.seed}_{filename}_height.{type}', self.height_map)
 
         flattened = self.world.flatten()
         colored = np.array([World._color_convert(f) for f in flattened])
         colored = colored.reshape(self.size, self.size, 3)
-        plt.imsave(f'worlds/{self.seed}_{filename}.png', colored)
+        plt.imsave(f'worlds/{self.seed}_{filename}.{type}', colored)
         plt.show()
         pass
 

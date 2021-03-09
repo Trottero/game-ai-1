@@ -11,7 +11,7 @@ if __name__ == '__main__':
               'blueberry', 'watermelon', 'papaya']
 
     for fruit in fruits:
-        w = World(250, seed=fruit)
-        w.generate([LandGenerator(apply_gaussian=True, rng=w.rng), BeachGenerator(),
+        w = World(100, seed=fruit)
+        w.generate([LandGenerator(apply_gaussian=True, apply_perlin=True, rng=w.rng), BeachGenerator(),
                     VillageGenerator(rng=w.rng), RoadGenerator()])
-        w.export_to_fig()
+        w.export_to_fig(type='pdf')
