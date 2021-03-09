@@ -7,7 +7,9 @@ import scipy.ndimage
 
 
 class LandGenerator(Generator):
-    def __init__(self):
+    def __init__(self, apply_gaussian=True, rng=np.random.default_rng()):
+        self.apply_gaussian = apply_gaussian
+        self.rng = rng
         pass
 
     def apply(self, world, height_map):
@@ -16,8 +18,9 @@ class LandGenerator(Generator):
                 world[x, y] = self.perlin(x, y)
         # world = np.array(world) + world.min()
         # world = world / np.max(world)
-        world = sp.ndimage.filters.gaussian_filter(
-            world, [5.0, 5.0], mode='constant')
+        if self.apply_gaussian:
+            world = sp.ndimage.filters.gaussian_filter(
+                world, [5.0, 5.0], mode='constant')
 
         difference = float(world.max() - world.min())
         height_map = (world - world.min()) / difference
@@ -29,9 +32,15 @@ class LandGenerator(Generator):
         return(a1 - a0) * w + a0
 
     def random_gradient(self, ix, iy):
-        random = 2920.0 * sin(ix * 21942.0 + iy * 171324.0 + 8912.0) * \
-            cos(ix * 23157.0 * iy * 217832.0 + 9758.0)
+        random = self.r() * sin(ix * self.r() + iy * self.r() + self.r()) * \
+            cos(ix * self.r() * iy *
+                self.r() + self.r())
         return (cos(random), sin(random))
+
+    def r(self):
+        min = 1000
+        max = 10000
+        return self.rng.random() * (max - min) + min
 
     def dot_grid_gradient(self, ix, iy, x, y):
         gradx, grady = self.random_gradient(ix, iy)

@@ -13,7 +13,8 @@ class VillageGenerator(Generator):
     ``attempts`` -- maximum number of attempts (default 10)
     """
 
-    def __init__(self, probability=0.1, village_size=2, attempts=10):
+    def __init__(self, probability=0.1, village_size=2, attempts=10, rng=np.random.default_rng()):
+        self.rng = rng
         self.probability = probability
         self.village_size = village_size
         self.attempts = attempts
@@ -28,11 +29,11 @@ class VillageGenerator(Generator):
     def generate_town(self, x, y, world):
         size = len(world)
         # roll chance for every chunk:
-        if np.random.rand() < self.probability:
+        if self.rng.random() < self.probability:
             # Attempt to spawn a village in the given portion
             for _ in range(self.attempts):
                 # Get random loc in this chunk
-                r = np.random.rand(2) * 20
+                r = self.rng.random(2) * 20
                 x1, y1 = r
                 x1 = x + int(x1)
                 y1 = y + int(y1)

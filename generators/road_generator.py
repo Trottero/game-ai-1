@@ -14,20 +14,21 @@ class RoadGenerator(Generator):
     def __init__(self, diagonal_paths=False):
         self.costs = {
             # Grass
-            1: 1,
-            2: 5,
+            Blocks.GRASS: 1,
+            Blocks.WOODS: 5,
 
             # Water
-            3: 20,
-            4: 35,
+            Blocks.WATER: 20,
+            Blocks.OCEAN: 35,
 
             # Sand
-            5: 2,
+            Blocks.SAND: 2,
 
             # village
-            6: 0,
+            Blocks.VILLAGE: 0,
             # path
-            7: 0
+            Blocks.PATH: 0,
+            Blocks.WATER_PATH: 0
         }
         self.diagonal_paths = diagonal_paths
         pass
@@ -106,7 +107,8 @@ class RoadGenerator(Generator):
             for next in n:
                 length = self.costs[world[current]]
 
-                alt = dist[current] + length + self.manhattan(current, target)
+                alt = dist[current] + length + \
+                    self.manhattan(current, target) / 10
                 if next not in dist.keys() or alt < dist[next]:
                     dist[next] = alt
                     prev[next] = current
@@ -141,12 +143,20 @@ class RoadGenerator(Generator):
         return path
 
     def draw_path(self, world, path):
+        path_map = {
+            Blocks.VILLAGE: Blocks.VILLAGE,
+            Blocks.WATER: Blocks.WATER_PATH,
+            Blocks.OCEAN: Blocks.WATER_PATH
+        }
         for seg in path:
-            world[seg] = Blocks.PATH if world[seg] != Blocks.VILLAGE else world[seg]
+            if world[seg] != Blocks.VILLAGE:
+                if world[seg] in path_map.keys():
+                    world[seg] = path_map[world[seg]]
+                else:
+                    world[seg] = Blocks.PATH
+
 
 # Union find data structure for quick kruskal algorithm
-
-
 class UF:
     # https://gist.github.com/Peng-YM/84bd4b3f6ddcb75a147182e6bdf281a6
     def __init__(self, N):

@@ -6,6 +6,7 @@ class Blocks():
     SAND = 5
     VILLAGE = 6
     PATH = 7
+    WATER_PATH = 8
     pallete = {
         # Grass
         1: [148, 186, 101],
@@ -21,7 +22,9 @@ class Blocks():
         # village
         6: [132, 71, 40],
         # path
-        7: [184, 115, 66]
+        7: [184, 115, 66],
+        # Water path
+        8: [118, 128, 116]
     }
 
     def __init__(self):
