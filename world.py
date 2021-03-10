@@ -10,8 +10,8 @@ class World():
 
     def __init__(self, size=50, seed=1337):
         self.rng = np.random.default_rng(int(seed, base=36))
-        self.world = self.rng.random((size, size))
-        self.height_map = self.rng.random((size, size))
+        self.world = np.zeros((size, size))
+        self.height_map = np.zeros((size, size))
         self.seed = seed
         self.size = size
         pass
